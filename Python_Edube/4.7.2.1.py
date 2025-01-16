@@ -1,3 +1,5 @@
+import math, random
+
 board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] 
 ENCABEZADO_TABLERO = "+-------+-------+-------+"
 RELLENO_TABLERO = "|       |       |       |"
@@ -24,19 +26,77 @@ def DisplayBoard(board):
 
 # La función acepta el estado actual del tablero y pregunta al usuario acerca de su movimiento, 
 # verifica la entrada y actualiza el tablero acorde a la decisión del usuario.
-# def EnterMove(board):
+def EnterMove(board):
+    posicion = int(input("Indique una posición: "))
+
+    for sublist in board:
+        if(posicion in sublist):
+            row, col = divmod(posicion - 1, 3)
+            board[row][col]= 'O'
 
 
-# def MakeListOfFreeFields(board):
+
 #     # La función examina el tablero y construye una lista de todos los cuadros vacíos.
 #     # La lista esta compuesta por tuplas, cada tupla es un par de números que indican la fila y columna.
+def MakeListOfFreeFields(board):
+    empty_list = []
 
-# def VictoryFor(board, sign):
-#     # La función analiza el estatus del tablero para verificar si
-#     # el jugador que utiliza las 'O's o las 'X's ha ganado el juego.
+    for row in range(len(board)):
+        for column in range(len(board[0])):
+            if isinstance(board[row][column], (int, float)):
+                empty_list.append((row, column))
+            # if(not math.isnan(board[row][column])):
+            #     empty_list.append((row, column))
 
-# def DrawMove(board):
-#     # La función dibuja el movimiento de la máquina y actualiza el tablero.
+    return empty_list
 
-DisplayBoard(board)
-print(board[0][0])
+# La función analiza el estatus del tablero para verificar si
+# el jugador que utiliza las 'O's o las 'X's ha ganado el juego.
+def VictoryFor(board, sign):
+
+    if board[0][0] == sign and board[1][1] == sign and board[2][2] == sign:
+        return True
+    if board[0][2] == sign and board[1][1] == sign and board[2][0] == sign:
+        return True
+    
+    for index in range(3):
+        if all([board[index][index2] == sign for index2 in range(3)]) or all([board[index2][index] == sign for index2 in range(3)]):
+            return True
+
+
+
+# La función dibuja el movimiento de la máquina y actualiza el tablero.
+def DrawMove(board):
+    list = MakeListOfFreeFields(board)
+
+    if((1, 1) in list):
+        board[1][1] = 'X'
+    else:
+        aleatorio = int(random.uniform(0, len(list)))
+        board[list[aleatorio][0]][list[aleatorio][1]] = 'X'
+
+# La función inicia el juego
+def flipflapflop():
+
+    DisplayBoard(board)
+    
+    while not VictoryFor(board, 'O'):
+        DrawMove(board)
+        DisplayBoard(board)
+
+        if(VictoryFor(board, 'X')):
+            print("La máquina gana")
+            break
+
+        if not MakeListOfFreeFields(board):
+            print("El juego ha terminado en empate.")
+            break
+
+        EnterMove(board)
+        DisplayBoard(board)
+
+        if not MakeListOfFreeFields(board):
+            print("El juego ha terminado en empate.")
+            break
+
+flipflapflop()
