@@ -1,6 +1,10 @@
-import math, random
+# Import de la biblioteca random
+import random
 
+# Inicializo el tablero con números
 board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] 
+
+# Inicializo dos constantes para pintar el teclado
 ENCABEZADO_TABLERO = "+-------+-------+-------+"
 RELLENO_TABLERO = "|       |       |       |"
 
@@ -9,6 +13,7 @@ RELLENO_TABLERO = "|       |       |       |"
 def DisplayBoard(board):
     tablero = ""
 
+    # Bucle de 13 iteraciones para rellenar el tablero
     for index in range(13):
         if(index == 0 or index == 4 or index == 8 or index == 12):
             tablero += ENCABEZADO_TABLERO + "\n"
@@ -27,26 +32,27 @@ def DisplayBoard(board):
 # La función acepta el estado actual del tablero y pregunta al usuario acerca de su movimiento, 
 # verifica la entrada y actualiza el tablero acorde a la decisión del usuario.
 def EnterMove(board):
-    posicion = int(input("Indique una posición: "))
+    element = int(input("Indique una posición [0, 9]: "))
 
-    for sublist in board:
-        if(posicion in sublist):
-            row, col = divmod(posicion - 1, 3)
-            board[row][col]= 'O'
+    
+    for sublist in board: # Bucle for que saca las sublistas del tablero        
+        if(element in sublist): # Condición que busca si la posición está en alguna sublista
 
+            # La función divmod() --> (n, n) devuelve el cociente(row) y el resto(column) 
+            # para conseguir la posición exacta del elemento en el tablero
+            row, column = divmod(element - 1, 3)
+            board[row][column]= 'O'
 
-
-#     # La función examina el tablero y construye una lista de todos los cuadros vacíos.
-#     # La lista esta compuesta por tuplas, cada tupla es un par de números que indican la fila y columna.
+# La función examina el tablero y construye una lista de todos los cuadros vacíos.
+# La lista esta compuesta por tuplas, cada tupla es un par de números que indican la fila y columna.
 def MakeListOfFreeFields(board):
     empty_list = []
 
-    for row in range(len(board)):
+
+    for row in range(len(board)): # Bucle que recorre el tablero y rellena empty_list con los valores vacíos
         for column in range(len(board[0])):
-            if isinstance(board[row][column], (int, float)):
+            if isinstance(board[row][column], (int, float)): # isinstance() --> (boolean) indica si un elemento es de un tipo (en este caso, int o float)
                 empty_list.append((row, column))
-            # if(not math.isnan(board[row][column])):
-            #     empty_list.append((row, column))
 
     return empty_list
 
@@ -54,48 +60,51 @@ def MakeListOfFreeFields(board):
 # el jugador que utiliza las 'O's o las 'X's ha ganado el juego.
 def VictoryFor(board, sign):
 
-    if board[0][0] == sign and board[1][1] == sign and board[2][2] == sign:
+    
+    if board[0][0] == sign and board[1][1] == sign and board[2][2] == sign: # Comprobación de la diagonal primaria
         return True
-    if board[0][2] == sign and board[1][1] == sign and board[2][0] == sign:
+    if board[0][2] == sign and board[1][1] == sign and board[2][0] == sign: # Comprobación de la diagonal secundaria
         return True
     
-    for index in range(3):
+    for index in range(3): # Comprobación de las filas y columnas 
+
+        # all() --> (boolean) indica si todos los elementos son True o False
         if all([board[index][index2] == sign for index2 in range(3)]) or all([board[index2][index] == sign for index2 in range(3)]):
             return True
-
-
 
 # La función dibuja el movimiento de la máquina y actualiza el tablero.
 def DrawMove(board):
     list = MakeListOfFreeFields(board)
 
-    if((1, 1) in list):
+    if((1, 1) in list): # Comprobando si es el principio de la partida para colocar en medio
         board[1][1] = 'X'
-    else:
+    else: # Si no coloca en aleatorio
         aleatorio = int(random.uniform(0, len(list)))
         board[list[aleatorio][0]][list[aleatorio][1]] = 'X'
 
 # La función inicia el juego
 def flipflapflop():
 
-    DisplayBoard(board)
     
-    while not VictoryFor(board, 'O'):
-        DrawMove(board)
-        DisplayBoard(board)
+    DisplayBoard(board) # Muestra tablero
+    
+    while not VictoryFor(board, 'O'): # Bucle hasta que alguien gane o empate
+        DrawMove(board) # Mueve la máquina
+        DisplayBoard(board) # Muestra tablero
 
-        if(VictoryFor(board, 'X')):
+
+        if(VictoryFor(board, 'X')): # Comprobación si gana la máquina
             print("La máquina gana")
             break
 
-        if not MakeListOfFreeFields(board):
+        if not MakeListOfFreeFields(board): # Comprobación si empatan
             print("El juego ha terminado en empate.")
             break
 
-        EnterMove(board)
-        DisplayBoard(board)
+        EnterMove(board) # Mueve usuario
+        DisplayBoard(board) # Muestra tablero
 
-        if not MakeListOfFreeFields(board):
+        if not MakeListOfFreeFields(board): # Comprobación si gana el usuario
             print("El juego ha terminado en empate.")
             break
 
