@@ -1,9 +1,9 @@
-x =  6.5
-x = float(x)
+import numpy 
 
-y = ((3*x) ** 3) - ((2*x) ** 2) + (3*x) - 1
-print("y =", y)
+array_bidimensional = numpy.empty((3, 3), dtype=object) 
+print(array_bidimensional)
 
-for i in range(0, 9):
-    print(i)
-print(range(0, 9))
+array_bidimensional = [[] for _ in range(3)]
+
+print(array_bidimensional)
+
