@@ -92,7 +92,6 @@ def flipflapflop():
         DrawMove(board) # Mueve la máquina
         DisplayBoard(board) # Muestra tablero
 
-
         if(VictoryFor(board, 'X')): # Comprobación si gana la máquina
             print("La máquina gana")
             break
@@ -104,8 +103,8 @@ def flipflapflop():
         EnterMove(board) # Mueve usuario
         DisplayBoard(board) # Muestra tablero
 
-        if not MakeListOfFreeFields(board): # Comprobación si gana el usuario
-            print("El juego ha terminado en empate.")
-            break
+    if VictoryFor(board, 'O'):
+        print("Has ganado")
+
 
 flipflapflop()
