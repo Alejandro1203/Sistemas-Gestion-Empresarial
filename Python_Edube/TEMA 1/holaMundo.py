@@ -6,4 +6,3 @@ print(array_bidimensional)
 array_bidimensional = [[] for _ in range(3)]
 
 print(array_bidimensional)
-
