@@ -1,0 +1,1 @@
+print("SifwidnQOKNniowdonSi".lower())

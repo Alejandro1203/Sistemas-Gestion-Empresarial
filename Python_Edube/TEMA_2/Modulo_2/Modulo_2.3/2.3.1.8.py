@@ -1,0 +1,1 @@
+print(", ".join(["omicron", "bellako", "churumbel"]))

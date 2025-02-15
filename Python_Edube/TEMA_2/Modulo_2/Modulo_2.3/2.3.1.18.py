@@ -1,19 +1,25 @@
 def mysplit(strng):
     if not isinstance(strng, str):
-        return None
+        return "No es String"
     else:
         lista = []
         cadena = ""
 
-        for index in range(len(strng)):
-            if strng[index] != " ":
-                cadena += strng[index]
+        for chr in strng:
+
+            if chr != " ":
+                cadena += chr
             elif cadena != "":
                 lista.append(cadena)
-                cadena = ""  
+                cadena = ""
 
-        return lista 
+        if cadena != "":
+            lista.append(cadena)
 
+        return lista
+
+
+print(mysplit(2))
 print(mysplit("Ser o no ser, esa es la pregunta"))
 print(mysplit("Ser o no ser,esa es la pregunta"))
 print(mysplit("   "))

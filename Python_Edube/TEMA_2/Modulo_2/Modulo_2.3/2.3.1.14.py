@@ -1,0 +1,1 @@
+print("si    siii  sisisiique siiii".split())
