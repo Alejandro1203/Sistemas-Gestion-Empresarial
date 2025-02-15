@@ -12,5 +12,4 @@ def bmi(weight, height):
     
     return weight / height ** 2
 
-
 print(bmi(weight = lb_to_kg(176), height = ft_and_inch_to_m(5, 7)))
